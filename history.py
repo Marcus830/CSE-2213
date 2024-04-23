@@ -2,17 +2,12 @@ import sqlite3
 import random
 class OrderHistory:
 
-    def __init__(self, OrderHistory, viewHistory, viewOrder, createOrder, addOrderItems):
-        self.OrderHistory = OrderHistory
-        self.viewHistory = viewHistory
-        self.viewOrder = viewOrder
-        self.createOrder = createOrder
-        self.addOderItems = addOrderItems
-
-    def OrderHistory():
-        return OrderHistory
+    def __init__(self, databaseName="methods.db"):
+        self.databaseName = databaseName
+    #def OrderHistory():
+        #return OrderHistory
     
-    def viewHistory(userID):
+    def viewHistory(self, userID):
         connection = sqlite3.connect("methods.db")
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Orders ")
@@ -20,15 +15,14 @@ class OrderHistory:
         for row in result:
             print(row)
 
-    def viewOrder():
+    def viewOrder(self, userID, orderID):
         connection = sqlite3.connect("methods.db")
         cursor = connection.cursor()
-        cursor.execute("SELECT {userID} FROM Orders ")
+        cursor.execute("SELECT * FROM Orders WHERE userID = ?", userID)
         result = cursor.fetchone()
-        for row in result:
-            print(row)
+        print(result)
     
-    def createOrder(string userID, int quantity, float cost, string date):
+    def createOrder(self, userID, quantity, cost, date):
         # I'm going to ask what is their userid
         userID = input("What is your userID:")
         # generate a new orderID 
@@ -40,13 +34,11 @@ class OrderHistory:
         result = cursor.fetchone()
         for row in result:
             print(row)
-
-        while(1):
-            selection = input("What books would like to add:")
-            quantity = input("How many would you like? ")
-            date = input("what is today's date")
-            if (selection == "done"):
-                break
+        selection = input("What books would like to add:")
+        quantity = input("How many would you like? ")
+        date = input("what is today's date")
+        if selection == "done":
+            print("adding to your order now")
          #insert those items into the database
         items = "INSERT INTO Orders (OrderNumber, UserID, ItemNumber, Cost, Date) VALUES (?, ?, ?, ?, ?)"
         cursor.excuteone(items)
@@ -58,9 +50,9 @@ class OrderHistory:
         # we would return date, orderID, cost, and items 
         return "SELECT * FROM ORDERS"
     
-    def addOderItems(string userID, string orderID):
+    def addOderItems(self, userID, orderID):
         # question do we have to ask for the userID? 
-        
+
         #here her we would jions the items from the oderitems to the cart
         connection = sqlite3.connect("methods.db")
         cursor = connection.cursor()
