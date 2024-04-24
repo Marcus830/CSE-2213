@@ -84,21 +84,20 @@ def mainMenu(user, cart, inventory, history):
             print("5. Go back")
             opt = int(input("pick one: "))
             if(opt == 1):
-                F1 = Cart.viewCart(cart)
+                userID = input("what is your userID? ")
+                F1 = Cart.viewCart(cart, userID)
                 print(F1)
             elif(opt == 2):
-                F2 = Cart.addToCart(cart)
-                print(F2)
+                Cart.addToCart(user)
             elif(opt == 3):
-                F2 = Cart.removeFromCart(cart)
-                print(F2)
+                Cart.removeFromCart(user)
             elif(opt == 4):
                 Cart.checkOut(cart)
             elif(opt == 5):
                 mainMenu(user, cart, inventory, history)
             else:
                 print("this isn't a valid option")
-        elif(option == 4):
+        elif(option == "4"):
             print("order Information")  
             print("create an order")
             print("add items to order")

@@ -19,7 +19,7 @@ class Inventory:
         userinput = input("What is the title of the book you will like to search for: ")
         conn = sqlite3.connect("methods.db")
         mycursor = conn.cursor()
-        sql = "SELECT * FROM Inventory WHERE Title LIKE '%{userinput}%'"
+        sql = "SELECT Title FROM Inventory WHERE Title LIKE '%{userinput}%'"
         mycursor.execute(sql)
         myresult = mycursor.fetchall()
         for x in myresult:
