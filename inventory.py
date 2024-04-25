@@ -22,8 +22,7 @@ class Inventory:
         sql = "SELECT Title FROM Inventory WHERE Title LIKE ? "
         mycursor.execute(sql)
         myresult = mycursor.fetchone()
-        for x in myresult:
-            print(x)
+        print(myresult)
         
     def dereaseStock(self, ISBN, quantity=1):
         try:
