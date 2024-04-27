@@ -1,3 +1,4 @@
+import sqlite3 as sql
 from user import *
 from cart import *
 from inventory import *
@@ -9,7 +10,7 @@ def initialMenu():
     ## objects for the classes
     user = User()
     cart = Cart()
-    inventory = Inventory()
+    inventory = Inventory(user)
     history = OrderHistory()
 
     ## initial menu
@@ -66,7 +67,8 @@ def mainMenu(user, cart, inventory, history):
         elif(option == "2"):
             print("1. View the Inventory")
             print("2. Search for item in the inventory ")
-            print("3. Go back")
+            print("3. decrese stock")
+            print("4. Go back")
             opt = int(input("pick one: "))
             if(opt == 1):
                 e1 =Inventory.viewInventory(user)
@@ -75,6 +77,8 @@ def mainMenu(user, cart, inventory, history):
                 e2 = Inventory.searchInventory(user)
                 print(e2)
             elif(opt == 3):
+                Inventory.dereaseStock(user)
+            elif(opt == 4):
                 mainMenu(user, cart, inventory, history)
         elif(option == "3"):
             print("1. View your Cart")
