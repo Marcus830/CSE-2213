@@ -65,10 +65,10 @@ def mainMenu(user, cart, inventory, history):
         elif(option == "1"):
             user.viewAccountInformation()
         elif(option == "2"):
-            print("1. View the Inventory")
-            print("2. Search for item in the inventory ")
-            print("3. decrese stock")
-            print("4. Go back")
+            print("1. View Inventory")
+            print("2. Search Inventory ")
+            #print("3. decrese stock")
+            print("4. Go Back")
             opt = int(input("pick one: "))
             if(opt == 1):
                 e1 =Inventory.viewInventory(user)
@@ -76,8 +76,8 @@ def mainMenu(user, cart, inventory, history):
             elif(opt == 2):
                 e2 = Inventory.searchInventory(user)
                 print(e2)
-            elif(opt == 3):
-                Inventory.dereaseStock(user)
+            #elif(opt == 3):
+                #Inventory.dereaseStock(inventory)
             elif(opt == 4):
                 mainMenu(user, cart, inventory, history)
         elif(option == "3"):
@@ -88,38 +88,33 @@ def mainMenu(user, cart, inventory, history):
             print("5. Go back")
             opt = int(input("pick one: "))
             if(opt == 1):
-                userID = input("what is your userID? ")
-                F1 = Cart.viewCart(cart, userID)
-                print(F1)
+                Cart.viewCart(user)
             elif(opt == 2):
                 Cart.addToCart(user)
             elif(opt == 3):
                 Cart.removeFromCart(user)
             elif(opt == 4):
-                Cart.checkOut(cart)
+                Cart.checkOut(user)
             elif(opt == 5):
                 mainMenu(user, cart, inventory, history)
             else:
                 print("this isn't a valid option")
         elif(option == "4"):
-            print("order Information")  
-            print("create an order")
-            print("add items to order")
-            opt = int(input("pick one: "))
+            print("1. View Order History")  
+            print("2. view Order")
+            #print("3. Create an order")
+            #print("4. Add items to order")
+            opt = int(input("Select a number from (1-3): "))
+            user = self.userID
             if(opt == 1):
-                F1 = OrderHistory.viewHistory(user)
+                OrderHistory.viewHistory(user)
                 print(F1)
             elif(opt == 2):
-                F2 = OrderHistory.viewOrder(user)
-                print(F2)
+                OrderHistory.viewOrder(user)
             elif(opt == 3):
-                F3 = OrderHistory.createOrder(user)
-                print(F2)
+                history.createOrder(user, userID, quantity, cost)
             elif(opt == 4):
-                F3 = OrderHistory.addOderItems(user)
-                print(F3)
-            elif(opt == 5):
-                mainMenu()
+                mainMenu(user, cart, inventory, history)
             else:
                 print("this isn't a valid option")
         ## incorrect menu option
@@ -133,3 +128,5 @@ def main():
     initialMenu()
 
 main()
+
+           
