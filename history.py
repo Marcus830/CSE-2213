@@ -5,28 +5,17 @@ class OrderHistory:
 
     def __init__(self, databaseName="methods.db"):
         self.databaseName = databaseName
+        self.OrderNumber = ""
 
     def getOrderNumber(self):
         return self.OrderNumber
     
-    def Orders(self, databaseName="methods.db"):
-        '''
-        self.ISBN = Orders.ISBN
-        self.Title = Orders.Title
-        self.Author = Orders.Author
-        self.Genre = Orders.Genre
-        self.Pages = Orders.Pages
-        self.ReleaseDate = Orders.ReleaseDate
-        self.Price = Orders.Price
-        self.Stock = Orders.Stock
-        '''
-
     #Done!
-    def viewOrder(self, userID):
+    def viewHistory(self, userID):
         try:
             connection = sqlite3.connect("methods.db")
             cursor = connection.cursor()
-            cursor.execute("SELECT * FROM Orders WHERE userID = ? AND ", (userID))
+            cursor.execute("SELECT * FROM Orders WHERE userID = ?", (userID))
             result = cursor.fetchone()
             if result:
                 print(result)
