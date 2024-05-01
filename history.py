@@ -1,4 +1,5 @@
 import sqlite3
+import random
 import datetime
 class OrderHistory:
 
@@ -21,33 +22,54 @@ class OrderHistory:
         '''
 
     #Done!
-    def viewHistory(self):
-        connection = sqlite3.connect("methods.db")
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Orders ")
-        result = cursor.fetchall()
-        for row in result:
-            print(row)
+    def viewHistory(self, userID):
+        try: 
+            connection = sqlite3.connect("methods.db")
+            cursor = connection.cursor()
+            cursor.execute("SELECT * FROM Orders")
+            result = cursor.fetchall()
+            if result:
+                for row in result:
+                    print(row)
+            else: 
+                print("There was a order for this user")
+        except Exception as e:
+            print("Error Checking Out", e) 
+
     #Done!
-    def viewOrder(self):
-        userID = input("What is your userID: ")
-        connection = sqlite3.connect("methods.db")
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Orders WHERE userID = ?", (userID,))
-        result = cursor.fetchone()
-        print(result)
+    def viewOrder(self, userID):
+        try:
+            connection = sqlite3.connect("methods.db")
+            cursor = connection.cursor()
+            cursor.execute("SELECT * FROM Orders WHERE userID = ?", (userID,))
+            result = cursor.fetchone()
+            if result:
+                print(result)
+            else:
+                print("Order not found")
+            cursor.close()
+            connection.close()
+        except Exception as e:
+            print("ERROR viewing your order details:",e)
     
-    def createOrder(self, userID, quantity, cost):
+    def createOrder(self, userID, quantity, cost, date):
         try:
             connection = sqlite3.connect(self.databaseName)
             cursor = connection.cursor()
 
-            order_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # This is going to give a new and unique orderID
+            orderID = str(random.randint(100000, 999999))  # Example random orderID
+            while True:
+                cursor.execute("SELECT * FROM Orders WHERE orderNumber = ?", (orderID,))
+                Used_order = cursor.fetchone()
+                if Used_order:
+                    orderID = str(random.randint(100000, 999999))
+                else:
+                    break
 
-            cursor.execute("INSERT INTO orders (user_id, quantity, cost, date) VALUES (?, ?, ?, ?)", (userID, quantity, cost, order_date),)
+            cursor.execute("INSERT INTO Orders (OrderNumber, UserId, ItemNumber, Cost, Date) VALUES (?, ?, ?, ?, ?)", (orderID, userID, quantity, cost, date),)
             connection.commit()
 
-            orderID = cursor.lastrowid
             print("Order created with ID:", orderID)
 
             cursor.close()
@@ -56,23 +78,23 @@ class OrderHistory:
             return orderID
         except Exception as e:
             print("Error creating order:", e)
-            return None
+        return None
 
     
-    def addOrderItems(self, orderID, item_id, item_name, quantity, price):
+    def addOrderItems(self, orderID, userID):
         try:
             connection = sqlite3.connect(self.databaseName)
             cursor = connection.cursor()
 
             cursor.execute(
-                "INSERT INTO order_items (order_id, item_id, item_name, quantity, price) VALUES (?, ?, ?, ?, ?)",
-                (orderID, item_id, item_name, quantity, price),
+                "INSERT INTO OrderItems (orderID, userID) SELECT ?, item_id, item_name, quantity, price FROM cart WHERE user_id = ?",
+                (orderID, userID),
             )
             connection.commit()
 
-            print(f"Item '{item_name}' added to Order ID {orderID}.")
+            print(f"Items added to Order ID {orderID}.")
 
             cursor.close()
             connection.close()
         except Exception as e:
-            print("Error adding order item:", e) 
+            print("Error adding order item:", e)

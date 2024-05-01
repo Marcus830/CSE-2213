@@ -25,13 +25,16 @@ class Inventory:
     #Done!  
     def searchInventory(self):
         userinput = input("What is the title of the book you will like to search for: ")
-        conn = sqlite3.connect("methods.db")
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Inventory WHERE Title = ? ", (userinput,))
-        myresult = cursor.fetchall()
-        print(myresult)
+        try:
+            conn = sqlite3.connect("methods.db")
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM Inventory WHERE Title = ? ", (userinput,))
+            myresult = cursor.fetchall()
+            print(myresult)
+        except Exception as e:
+            print("Error creating order:", e)
     #Done!
-    def dereaseStock(self, quantity=1): 
+    def dereaseStock(self, User_ISBN, quantity=1): 
         #enter the isbn of the stock 
         # fetch the stock number by decrease by 1 
         conn = sqlite3.connect("methods.db")

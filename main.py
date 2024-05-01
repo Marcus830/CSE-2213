@@ -71,22 +71,22 @@ def mainMenu(user, cart, inventory, history):
             print("4. Go Back")
             opt = int(input("pick one: "))
             if(opt == 1):
-                e1 =Inventory.viewInventory(user)
-                print(e1)
+                inventory.viewInventory(user)
             elif(opt == 2):
-                e2 = Inventory.searchInventory(user)
-                print(e2)
+                inventory.searchInventory(user)
             #elif(opt == 3):
                 #Inventory.dereaseStock(inventory)
             elif(opt == 4):
                 mainMenu(user, cart, inventory, history)
+            else:
+                print("This isn't a vaild option")
         elif(option == "3"):
             print("1. View your Cart")
             print("2. Add to your cart")
             print("3. Remove an item from your cart")   
             print("4. Checkout!!")  
             print("5. Go back")
-            opt = int(input("pick one: "))
+            opt = int(input("Select a number from (1-3): "))
             if(opt == 1):
                 Cart.viewCart(user)
             elif(opt == 2):
@@ -94,7 +94,13 @@ def mainMenu(user, cart, inventory, history):
             elif(opt == 3):
                 Cart.removeFromCart(user)
             elif(opt == 4):
-                Cart.checkOut(user)
+                confirm = input("Would you like to checkout? (yes/no): ")
+                if confirm == "yes":
+                    Cart.checkOut(user)
+                elif confirm == "No":
+                    break
+                else:
+                    print("this isn't a vaild option")
             elif(opt == 5):
                 mainMenu(user, cart, inventory, history)
             else:
@@ -105,14 +111,13 @@ def mainMenu(user, cart, inventory, history):
             #print("3. Create an order")
             #print("4. Add items to order")
             opt = int(input("Select a number from (1-3): "))
-            user = self.userID
+            userID = user.getUserID()
             if(opt == 1):
-                OrderHistory.viewHistory(user)
-                print(F1)
+                history.viewHistory(userID)
             elif(opt == 2):
-                OrderHistory.viewOrder(user)
+                history.viewOrder(user)
             elif(opt == 3):
-                history.createOrder(user, userID, quantity, cost)
+                history.createOrder(user)
             elif(opt == 4):
                 mainMenu(user, cart, inventory, history)
             else:
