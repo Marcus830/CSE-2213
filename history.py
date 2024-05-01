@@ -6,8 +6,8 @@ class OrderHistory:
     def __init__(self, databaseName="methods.db"):
         self.databaseName = databaseName
 
-    #def getUserID(self):
-        #return self.userID
+    def getOrderNumber(self):
+        return self.OrderNumber
     
     def Orders(self, databaseName="methods.db"):
         '''
@@ -22,26 +22,11 @@ class OrderHistory:
         '''
 
     #Done!
-    def viewHistory(self, userID):
-        try: 
-            connection = sqlite3.connect("methods.db")
-            cursor = connection.cursor()
-            cursor.execute("SELECT * FROM Orders")
-            result = cursor.fetchall()
-            if result:
-                for row in result:
-                    print(row)
-            else: 
-                print("There was a order for this user")
-        except Exception as e:
-            print("Error Checking Out", e) 
-
-    #Done!
     def viewOrder(self, userID):
         try:
             connection = sqlite3.connect("methods.db")
             cursor = connection.cursor()
-            cursor.execute("SELECT * FROM Orders WHERE userID = ?", (userID,))
+            cursor.execute("SELECT * FROM Orders WHERE userID = ? AND ", (userID))
             result = cursor.fetchone()
             if result:
                 print(result)
@@ -51,10 +36,30 @@ class OrderHistory:
             connection.close()
         except Exception as e:
             print("ERROR viewing your order details:",e)
+
+    #Done!
+    def viewOrder(self, userID, OrderNumber):
+        try:
+            connection = sqlite3.connect("methods.db")
+            cursor = connection.cursor()
+
+            cursor.execute("SELECT * FROM orders WHERE userID = ? AND orderNumber = ?",(userID, OrderNumber, ) )
+            result = cursor.fetchone()
+            if result:
+                print(f"Details for Order ID {userID}:")
+                print("Your Order:", result[1] + result[2] + result[3] + result[4])
+            else:
+                print("Order not found.")
+
+            cursor.close()
+            connection.close()
+        except Exception as e:
+            print("Error viewing order details:", e)
+
     
     def createOrder(self, userID, quantity, cost, date):
         try:
-            connection = sqlite3.connect(self.databaseName)
+            connection = sqlite3.connect("methods.db")
             cursor = connection.cursor()
 
         # This is going to give a new and unique orderID

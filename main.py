@@ -71,9 +71,9 @@ def mainMenu(user, cart, inventory, history):
             print("4. Go Back")
             opt = int(input("pick one: "))
             if(opt == 1):
-                inventory.viewInventory(user)
+                inventory.viewInventory()
             elif(opt == 2):
-                inventory.searchInventory(user)
+                inventory.searchInventory()
             #elif(opt == 3):
                 #Inventory.dereaseStock(inventory)
             elif(opt == 4):
@@ -112,10 +112,11 @@ def mainMenu(user, cart, inventory, history):
             #print("4. Add items to order")
             opt = int(input("Select a number from (1-3): "))
             userID = user.getUserID()
+            orderID = history.getOrderNumber()
             if(opt == 1):
                 history.viewHistory(userID)
             elif(opt == 2):
-                history.viewOrder(user)
+                history.viewOrder(userID, orderID)
             elif(opt == 3):
                 history.createOrder(user)
             elif(opt == 4):

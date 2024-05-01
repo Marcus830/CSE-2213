@@ -22,13 +22,19 @@ class Cart:
 
     #Done!
     def viewCart(self): 
-        userID = input("What is your userID ")
-        connection = sqlite3.connect("methods.db")
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Cart WHERE userID = ?",(userID,))
-        result = cursor.fetchall()
-        for row in result:
-            print(row) 
+        try:
+            userID = input("What is your userID ")
+            connection = sqlite3.connect("methods.db")
+            cursor = connection.cursor()
+            cursor.execute("SELECT * FROM Cart WHERE userID = ?",(userID,))
+            result = cursor.fetchall()
+            if result:
+                for row in result:
+                    print(row) 
+            else:
+                print("Cart not found")
+        except Exception as e:
+            print("Error creating order:", e)
      # DONE!   
     def addToCart(self): 
         UserID = input("What is your userID ")

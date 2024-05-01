@@ -3,25 +3,18 @@ class Inventory:
 
     def __init__(self, ISBN, databaseName="methods.db"):
         self.databaseName = databaseName
-        self.ISBN = ""
         
-    def Inventory(self, databaseName="methods.db"):
-        self.ISBN = Inventory.ISBN
-        self.Title = Inventory.Title
-        self.Author = Inventory.Author
-        self.Genre = Inventory.Genre
-        self.Pages = Inventory.Pages
-        self.ReleaseDate = Inventory.ReleaseDate
-        self.Price = Inventory.Price
-        self.Stock = Inventory.Stock
      #Done!   
     def viewInventory(self):
-        connection = sqlite3.connect("methods.db")
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Inventory ")
-        result = cursor.fetchall()
-        for row in result:
-            print(row)
+        try:
+            connection = sqlite3.connect("methods.db")
+            cursor = connection.cursor()
+            cursor.execute("SELECT * FROM Inventory ")
+            result = cursor.fetchall()
+            for row in result:
+                print("ISBN: " + row[0] + "Title: " + row[1] + "Author: " + row[2] + "Genre: " + row[3] + "pages: "+ row[4] + "ReleaseDate: " + row[5] + "Price: " + row[6] + "stock: " + row[7])
+        except:
+            print("Failed connection.")
     #Done!  
     def searchInventory(self):
         userinput = input("What is the title of the book you will like to search for: ")
